@@ -1,0 +1,28 @@
+[
+    {
+      "imageSrc": "img/4DFWD4-RUNNING-SHOES.avif",
+      "brand": "Adidas",
+      "itemName": "4DFWD 4 - RUNNING SHOES",
+      "price": "$180.00",
+      "quantity": 1,
+      "total": "$180.00"
+    },
+    {
+      "imageSrc": "img/Kaptir-3.0-Shoes.avif",
+      "brand": "Adidas",
+      "itemName": "Kaptir 3.0 Shoes",
+      "price": "$220.00",
+      "quantity": 1,
+      "total": "$220.00"
+    },
+    {
+      "imageSrc": "img/Ultraboost-5X-Shoes.avif",
+      "brand": "Adidas",
+      "itemName": "Ultraboost 5X Shoes",
+      "price": "$320.00",
+      "quantity": 1,
+      "total": "$320.00"
+    }
+    
+]
+  
