@@ -103,7 +103,7 @@ ninthimage.addEventListener("mouseleave", () => {
 */
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('products-men.json')
+    fetch('products-women.json')
         .then(response => response.json())
         .then(data => {
             let productList = document.querySelector('#product-list .cards');

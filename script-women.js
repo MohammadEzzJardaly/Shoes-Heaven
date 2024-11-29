@@ -1,8 +1,97 @@
-document.addEventListener("DOMContentLoaded", () => {
+    /*
     let firstimage = document.getElementById("first");
     let secondimage = document.getElementById("second");
     let thirdimage = document.getElementById("third");
+    let fourthimage = document.getElementById("fourth");
+    let fifthimage = document.getElementById("fifth");
+    let sixthimage = document.getElementById("sixth");
+    let seventhimage = document.getElementById("seventh");
+    let eighthimage = document.getElementById("eighth");
+    let ninthimage = document.getElementById("ninth");
 
+    document.getElementById("first").style.backgroundImage = "url('img/falcon shoes/1.webp')";
+    document.getElementById("second").style.backgroundImage = "url('img/4DFWD 4 RUNNING SHOES - women/1.avif')";
+    document.getElementById("third").style.backgroundImage = "url('img/harden shoes/1.avif')";
+    document.getElementById("fourth").style.backgroundImage = "url('img/McCartney x Terrex Hiking Boots/1.avif')";
+    document.getElementById("fifth").style.backgroundImage = "url('img/Adifom Superstar Winter Boot Shoes/1.avif')";
+    document.getElementById("sixth").style.backgroundImage = "url('img/Codechaos Boot Spikeless Golf Shoes/1.avif')";
+    document.getElementById("seventh").style.backgroundImage = "url('img/Rivalry Mule Shoes/1.png')";
+    document.getElementById("eighth").style.backgroundImage = "url('img/Adilette Platform Clogs/1.avif')";
+    document.getElementById("ninth").style.backgroundImage = "url('img/Stella McCartney Clogs/1.avif')";
+    */
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('products-women.json') // Updated to fetch products-women.json
+            .then(response => response.json())
+            .then(data => {
+                let productList = document.querySelector('#product-list .cards');
+                productList.innerHTML = ''; // Clear existing content
+    
+                data.forEach((product) => {
+                    let encodedDefaultSrc = encodeURI(product.imageSrc);
+                    let encodedHoverSrc = encodeURI(product.hoverSrc);
+    
+                    let productHTML = `
+                        <div class="card">
+                            <div class="img-con" 
+                                 data-default="${encodedDefaultSrc}" 
+                                 data-hover="${encodedHoverSrc}" 
+                                 style="background-image: url('${encodedDefaultSrc}'); transition: background-image 0.5s ease;"></div>
+                            <p>${product.itemName}</p>
+                            <p>${product.price}</p>
+                            <button class="add-to-cart-btn" 
+                                    data-name="${product.itemName}" 
+                                    data-price="${product.dataPrice}" 
+                                    data-image="${product.imageSrc}">
+                                Add to cart
+                            </button>
+                        </div>
+                    `;
+                    productList.innerHTML += productHTML;
+                });
+    
+                const imgConElements = document.querySelectorAll('.img-con');
+                imgConElements.forEach(el => {
+                    el.addEventListener("mouseenter", () => {
+                        el.style.backgroundImage = `url('${el.dataset.hover}')`;
+                    });
+                    el.addEventListener("mouseleave", () => {
+                        el.style.backgroundImage = `url('${el.dataset.default}')`;
+                    });
+                });
+    
+                const addtocart = document.querySelectorAll(".add-to-cart-btn");
+                addtocart.forEach(button => {
+                    button.addEventListener("click", () => {
+                        const productdetails = {
+                            imageSrc: button.getAttribute("data-image"),
+                            brand: "Adidas",
+                            itemName: button.getAttribute("data-name"),
+                            price: `$${button.getAttribute("data-price")}`,
+                            quantity: 1,
+                            total: `$${button.getAttribute("data-price")}`
+                        };
+    
+                        let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+                        let existingproduct = cartItems.find(item => item.itemName === productdetails.itemName);
+    
+                        if (existingproduct) {
+                            showpopup(`"${productdetails.itemName}" is already in the cart. You can change the quantity in the cart page.`);
+                        } else {
+                            cartItems.push(productdetails);
+                            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+                            showpopup(`"${productdetails.itemName}" has been added to the cart.`);
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching the product data:', error);
+            });
+    });
+    
+
+    /*
     let firstdefault = "img/falcon shoes/1.webp";
     let firsthover = "img/falcon shoes/2.webp";
     let seconddefault = "img/4DFWD 4 RUNNING SHOES - women/1.avif";
@@ -37,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         thirdimage.style.backgroundImage = `url('${thirddefault}')`;
     });
 });
-
+*/
 function menwomenpage(){
     const gender = document.getElementById("gender").value;
     if(gender === "Men"){
@@ -48,6 +137,21 @@ function menwomenpage(){
     }
 }
 
+let popup = document.getElementById("popup");
+let popupcontent = document.querySelector(".popup-content p");
+let okbtn = document.getElementById("ok-btn");
+
+function showpopup(message) {
+    popupcontent.textContent = message;
+    popup.classList.add("show");
+}
+
+okbtn.addEventListener("click", () => {
+    popup.classList.remove("show");
+});
+
+
+/*
 let popup = document.getElementById("popup");
 let popupcontent = document.querySelector(".popup-content p");
 let okbtn = document.getElementById("ok-btn");
@@ -86,7 +190,7 @@ addtocart.forEach(button => {
         }
     });
 });
-
+*/
 
 let image = [
     "img/slider.jpg",
@@ -137,6 +241,7 @@ function updateimagetxt(direction = "next") {
     }, 500);
 }
 
+
 // Event listeners for buttons
 prevbtn.addEventListener("click", () => {
     currentindex = (currentindex > 0) ? currentindex - 1 : image.length - 1;
@@ -168,11 +273,3 @@ function toggleMenue(){
         isToggled = true;
     }
 }
-
-fetch('products-women.json')
-    .then(response => response.json())
-    .then(products => {
-        products.forEach(product => addproduct(product));
-        updateprice();
-    })
-    .catch(error => console.error("Error loading women's products:", error));
